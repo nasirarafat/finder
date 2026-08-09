@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Find It Local — search shops &amp; services near you</title>
-<meta name="description" content="Search local shops and services by town and category — barbers, halal food, pharmacies and more.">
+<meta name="description" content="Search local shops and services by town, postcode or area — in English, العربية, اردو or हिन्दी.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,7 +12,6 @@
 <style>
   :root{
     --green:#1B3B32;
-    --green-dark:#122822;
     --paper:#F6F1E4;
     --paper-2:#EFE8D6;
     --gold:#C9A24B;
@@ -23,143 +22,69 @@
     --radius:8px;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Work Sans', sans-serif;
-    line-height:1.55;
-  }
+  body{ background:var(--paper); color:var(--ink); font-family:'Work Sans', sans-serif; line-height:1.55; }
   h1,h2,h3{font-family:'Fraunces', serif; letter-spacing:-0.01em;}
   .mono{font-family:'JetBrains Mono', monospace;}
   a{color:inherit;}
-  img{max-width:100%; display:block;}
   button{font-family:inherit; cursor:pointer;}
-
   .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
 
-  /* ---------- HEADER / SIGNBOARD ---------- */
-  header.sign{
-    background:
-      radial-gradient(ellipse at top left, rgba(255,255,255,0.04), transparent 60%),
-      var(--green);
-    color:var(--paper);
-    border-bottom:6px solid var(--gold);
-    position:relative;
-    overflow:hidden;
-  }
-  header.sign::after{
-    content:'';
-    position:absolute; inset:10px;
-    border:1.5px solid rgba(228,199,126,0.35);
-    pointer-events:none;
-  }
+  header.sign{ background:var(--green); color:var(--paper); border-bottom:6px solid var(--gold); position:relative; overflow:hidden; }
+  header.sign::after{ content:''; position:absolute; inset:10px; border:1.5px solid rgba(228,199,126,0.35); pointer-events:none; }
   .sign-inner{padding:52px 24px 60px; text-align:center; position:relative;}
-  .sign-eyebrow{
-    font-family:'JetBrains Mono', monospace; font-size:11.5px;
-    color:var(--gold-light); text-transform:uppercase; letter-spacing:0.22em;
-    margin-bottom:14px;
-  }
-  header.sign h1{
-    font-size:clamp(2.1rem, 6vw, 3.2rem);
-    font-weight:700;
-    color:var(--paper);
-    text-shadow:0 2px 0 rgba(0,0,0,0.15);
-  }
-  header.sign h1 em{
-    font-style:italic; color:var(--gold-light); font-weight:500;
-  }
-  .sign-sub{
-    margin-top:12px; color:rgba(246,241,228,0.72); font-size:1rem;
-    max-width:480px; margin-left:auto; margin-right:auto;
-  }
+  .sign-eyebrow{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--gold-light); text-transform:uppercase; letter-spacing:0.22em; margin-bottom:14px; }
+  header.sign h1{ font-size:clamp(2.1rem, 6vw, 3.2rem); font-weight:700; text-shadow:0 2px 0 rgba(0,0,0,0.15); }
+  header.sign h1 em{ font-style:italic; color:var(--gold-light); font-weight:500; }
+  .sign-sub{ margin-top:12px; color:rgba(246,241,228,0.72); font-size:1rem; max-width:520px; margin-left:auto; margin-right:auto; }
+  .lang-note{ margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--gold-light); letter-spacing:0.02em; }
 
-  /* ---------- SEARCH PLAQUE ---------- */
-  .plaque{
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:0 18px 40px -20px rgba(18,40,34,0.35);
-    padding:26px;
-    margin-top:-46px;
-    position:relative;
-    z-index:5;
-  }
+  .plaque{ background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); box-shadow:0 18px 40px -20px rgba(18,40,34,0.35); padding:26px; margin-top:-46px; position:relative; z-index:5; }
   .field-row{display:grid; grid-template-columns:1fr 1fr auto; gap:14px;}
   @media (max-width:640px){ .field-row{grid-template-columns:1fr;} }
   .field{display:flex; flex-direction:column; gap:6px;}
-  .field label{
-    font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--green);
-    text-transform:uppercase; letter-spacing:0.1em;
-  }
+  .field label{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--green); text-transform:uppercase; letter-spacing:0.1em; }
   .field input{
-    font-family:'Work Sans', sans-serif; font-size:16px;
-    padding:13px 14px; border:1.5px solid var(--line); border-radius:6px;
-    background:#fff; color:var(--ink); outline:none;
-    transition:border-color .15s ease;
+    font-family:'Work Sans', sans-serif; font-size:16px; padding:13px 14px;
+    border:1.5px solid var(--line); border-radius:6px; background:#fff; color:var(--ink);
+    outline:none; transition:border-color .15s ease; unicode-bidi:plaintext;
   }
   .field input:focus{border-color:var(--green);}
   .search-btn{
-    background:var(--brick); color:var(--paper); border:none; border-radius:6px;
-    padding:0 26px; font-weight:600; font-size:15px; letter-spacing:0.01em;
-    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--brick); color:var(--paper); border:none; border-radius:6px; padding:0 26px;
+    font-weight:600; font-size:15px; display:flex; align-items:center; justify-content:center; gap:8px;
     transition:transform .12s ease, background .12s ease;
   }
   .search-btn:hover{background:#8f3a27; transform:translateY(-1px);}
-  .search-btn:active{transform:translateY(0);}
+  .search-btn:disabled{opacity:0.6; cursor:default; transform:none;}
   @media (max-width:640px){ .search-btn{padding:14px; width:100%;} }
 
   .chip-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:16px;}
-  .chip{
-    font-family:'JetBrains Mono', monospace; font-size:12px;
-    border:1px solid var(--line); background:var(--paper-2); color:var(--green);
-    padding:7px 13px; border-radius:20px; transition:all .12s ease;
-  }
+  .chip{ font-family:'JetBrains Mono', monospace; font-size:12px; border:1px solid var(--line); background:var(--paper-2); color:var(--green); padding:7px 13px; border-radius:20px; transition:all .12s ease; }
   .chip:hover{border-color:var(--gold); background:#fff;}
 
-  /* ---------- RESULTS ---------- */
   main{padding:48px 0 80px;}
-  .status{
-    font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--green);
-    margin-bottom:22px; min-height:20px;
-  }
+  .status{ font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--green); margin-bottom:22px; min-height:20px; }
   .status.error{color:var(--brick);}
 
-  #map{
-    height:320px; border-radius:var(--radius); border:1px solid var(--line);
-    margin-bottom:28px; display:none; background:var(--paper-2);
-  }
+  #map{ height:320px; border-radius:var(--radius); border:1px solid var(--line); margin-bottom:28px; display:none; background:var(--paper-2); }
 
   .results-list{display:flex; flex-direction:column; gap:12px;}
-  .result-card{
-    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
-    padding:18px 20px; display:flex; justify-content:space-between; gap:16px;
-    align-items:flex-start; flex-wrap:wrap;
-  }
+  .result-card{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap; }
   .result-main h3{font-size:16px; font-weight:600; margin-bottom:4px;}
   .result-main .addr{font-size:13.5px; color:#5a6058; max-width:520px;}
-  .result-main .type-tag{
-    display:inline-block; margin-top:8px; font-family:'JetBrains Mono', monospace;
-    font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em;
-    color:var(--green); background:var(--paper-2); border:1px solid var(--line);
-    padding:3px 9px; border-radius:12px;
-  }
+  .result-main .type-tag{ display:inline-block; margin-top:8px; font-family:'JetBrains Mono', monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--green); background:var(--paper-2); border:1px solid var(--line); padding:3px 9px; border-radius:12px; }
   .result-links{display:flex; flex-direction:column; gap:6px; align-items:flex-end;}
-  .result-links a{
-    font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--brick);
-    white-space:nowrap;
-  }
+  .result-links a{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--brick); white-space:nowrap; }
   .result-links a:hover{text-decoration:underline;}
 
-  .empty-state{
-    text-align:center; padding:60px 20px; color:#6b7268;
-  }
-  .empty-state h3{color:var(--green); margin-bottom:8px; font-size:1.3rem;}
-  .empty-state p{font-size:14px; max-width:380px; margin:0 auto;}
+  .fallback-box{ margin-top:18px; padding:16px 18px; background:var(--paper-2); border:1px dashed var(--line); border-radius:var(--radius); font-size:13.5px; color:#4d5348; }
+  .fallback-box a{color:var(--brick); font-weight:600;}
 
-  footer{
-    border-top:1px solid var(--line); padding:28px 0; text-align:center;
-    font-family:'JetBrains Mono', monospace; font-size:11.5px; color:#8a8f83;
-  }
+  .empty-state{ text-align:center; padding:60px 20px; color:#6b7268; }
+  .empty-state h3{color:var(--green); margin-bottom:8px; font-size:1.3rem;}
+  .empty-state p{font-size:14px; max-width:420px; margin:0 auto;}
+
+  footer{ border-top:1px solid var(--line); padding:28px 0; text-align:center; font-family:'JetBrains Mono', monospace; font-size:11.5px; color:#8a8f83; }
 </style>
 </head>
 <body>
@@ -168,7 +93,8 @@
   <div class="sign-inner">
     <div class="sign-eyebrow">est. on your high street</div>
     <h1>Find It <em>Local</em></h1>
-    <p class="sign-sub">Two fields. One search. Type a town and what you're after — "Falkirk" and "barber shop", or "halal food" — and see what's nearby.</p>
+    <p class="sign-sub">Type a place — a town, area or postcode — and what you're after. Type it however feels natural.</p>
+    <div class="lang-note">English &nbsp;·&nbsp; العربية &nbsp;·&nbsp; اردو &nbsp;·&nbsp; हिन्दी</div>
   </div>
 </header>
 
@@ -176,22 +102,22 @@
   <form class="plaque" id="search-form">
     <div class="field-row">
       <div class="field">
-        <label for="location">Location</label>
-        <input type="text" id="location" name="location" placeholder="e.g. Falkirk" autocomplete="off" required>
+        <label for="location">Location / Postcode</label>
+        <input type="text" id="location" name="location" placeholder="Falkirk, EH1 1AB, لاہور…" autocomplete="off" required>
       </div>
       <div class="field">
-        <label for="category">Category</label>
-        <input type="text" id="category" name="category" placeholder="e.g. barber shop" autocomplete="off" required>
+        <label for="category">What are you looking for?</label>
+        <input type="text" id="category" name="category" placeholder="halal food, قهوة, नाई…" autocomplete="off" required>
       </div>
       <button type="submit" class="search-btn" id="search-btn">Search →</button>
     </div>
     <div class="chip-row">
-      <button type="button" class="chip" data-cat="barber shop">Barber shop</button>
       <button type="button" class="chip" data-cat="halal food">Halal food</button>
+      <button type="button" class="chip" data-cat="coffee">Coffee</button>
+      <button type="button" class="chip" data-cat="barber">Barber</button>
       <button type="button" class="chip" data-cat="pharmacy">Pharmacy</button>
-      <button type="button" class="chip" data-cat="coffee shop">Coffee shop</button>
-      <button type="button" class="chip" data-cat="takeaway">Takeaway</button>
-      <button type="button" class="chip" data-cat="hairdresser">Hairdresser</button>
+      <button type="button" class="chip" data-cat="mosque">Mosque</button>
+      <button type="button" class="chip" data-cat="grocery">Grocery</button>
     </div>
   </form>
 
@@ -202,11 +128,92 @@
   </main>
 </div>
 
-<footer>Powered by OpenStreetMap &amp; Nominatim · free, no API key required</footer>
+<footer>Powered by OpenStreetMap, Nominatim &amp; Overpass · free, no API key required</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
 (function(){
+
+  const CATEGORY_DEFS = {
+    halal:      { label: 'Halal food',     filters: ['["cuisine"~"halal",i]','["diet:halal"]','["name"~"halal",i]'] },
+    coffee:     { label: 'Coffee',         filters: ['["amenity"="cafe"]','["shop"="coffee"]'] },
+    tea:        { label: 'Tea',            filters: ['["shop"="tea"]','["cuisine"~"tea",i]'] },
+    barber:     { label: 'Barber / Salon', filters: ['["shop"="hairdresser"]','["shop"="barber"]'] },
+    pharmacy:   { label: 'Pharmacy',       filters: ['["amenity"="pharmacy"]'] },
+    grocery:    { label: 'Grocery',        filters: ['["shop"="supermarket"]','["shop"="grocery"]','["shop"="convenience"]'] },
+    bakery:     { label: 'Bakery',         filters: ['["shop"="bakery"]'] },
+    mosque:     { label: 'Mosque',         filters: ['["amenity"="place_of_worship"]["religion"="muslim"]'] },
+    doctor:     { label: 'Doctor / Clinic',filters: ['["amenity"="doctors"]','["healthcare"="doctor"]'] },
+    dentist:    { label: 'Dentist',        filters: ['["amenity"="dentist"]'] },
+    bank:       { label: 'Bank',           filters: ['["amenity"="bank"]'] },
+    atm:        { label: 'ATM',            filters: ['["amenity"="atm"]'] },
+    restaurant: { label: 'Restaurant',     filters: ['["amenity"="restaurant"]'] },
+    takeaway:   { label: 'Takeaway',       filters: ['["amenity"="fast_food"]'] },
+    hotel:      { label: 'Hotel',          filters: ['["tourism"="hotel"]'] },
+    mechanic:   { label: 'Mechanic',       filters: ['["shop"="car_repair"]'] },
+    tailor:     { label: 'Tailor',         filters: ['["shop"="tailor"]'] },
+    butcher:    { label: 'Butcher',        filters: ['["shop"="butcher"]'] },
+    hospital:   { label: 'Hospital',       filters: ['["amenity"="hospital"]'] },
+    school:     { label: 'School',         filters: ['["amenity"="school"]'] },
+    petrol:     { label: 'Petrol station', filters: ['["amenity"="fuel"]'] },
+    clothes:    { label: 'Clothes',        filters: ['["shop"="clothes"]'] }
+  };
+
+  const TERMS = {
+    halal: ['halal','halal food','halal restaurant','halal meat','حلال','مطعم حلال','لحم حلال','हलाल','हलाल खाना','हलाल रेस्टोरेंट'],
+    coffee: ['coffee','coffee shop','cafe','café','قهوة','مقهى','كافيه','کافی','کافی شاپ','کیفے','कॉफी','कैफे','कॉफी शॉप'],
+    tea: ['tea','tea shop','chai','شاي','محل شاي','چائے','چائے کی دکان','चाय','चाय की दुकान'],
+    barber: ['barber','barber shop','hairdresser','salon','حلاق','صالون حلاقة','حجام','سیلون','नाई','बार्बर','सैलून'],
+    pharmacy: ['pharmacy','chemist','drugstore','صيدلية','فارمیسی','دوا خانہ','फार्मेसी','दवाई की दुकान','केमिस्ट'],
+    grocery: ['grocery','grocery store','supermarket','convenience store','بقالة','سوبر ماركت','کریانہ','جنرل اسٹور','سپر مارکیٹ','किराना','किराना दुकान','सुपरमार्केट'],
+    bakery: ['bakery','مخبز','بیکری','बेकरी'],
+    mosque: ['mosque','مسجد','मस्जिद'],
+    doctor: ['doctor','clinic','gp','طبيب','عيادة','ڈاکٹر','کلینک','डॉक्टर','क्लिनिक'],
+    dentist: ['dentist','طبيب أسنان','دانتوں کا ڈاکٹر','दंत चिकित्सक','दांतों का डॉक्टर'],
+    bank: ['bank','بنك','بینک','बैंक'],
+    atm: ['atm','cash machine','صراف آلي','اے ٹی ایم','एटीएम'],
+    restaurant: ['restaurant','مطعم','ریستوران','रेस्तरां','रेस्टोरेंट'],
+    takeaway: ['takeaway','take away','fast food','وجبات سريعة','فاسٹ فوڈ','ٹیک اوے','फास्ट फूड','टेकअवे'],
+    hotel: ['hotel','فندق','ہوٹل','होटल'],
+    mechanic: ['mechanic','garage','car repair','ميكانيكي','ورشة سيارات','میکینک','گیراج','मैकेनिक','गैरेज'],
+    tailor: ['tailor','خياط','درزی','दर्जी'],
+    butcher: ['butcher','جزار','قصاب','कसाई'],
+    hospital: ['hospital','مستشفى','ہسپتال','अस्पताल'],
+    school: ['school','مدرسة','اسکول','स्कूल','विद्यालय'],
+    petrol: ['petrol station','gas station','fuel','محطة وقود','پیٹرول پمپ','पेट्रोल पंप'],
+    clothes: ['clothes','clothing store','clothes shop','ملابس','محل ملابس','کپڑوں کی دکان','कपड़ों की दुकान']
+  };
+
+  const TERM_LIST = [];
+  Object.keys(TERMS).forEach(catId => {
+    TERMS[catId].forEach(t => TERM_LIST.push({ term: normalize(t), catId }));
+  });
+  TERM_LIST.sort((a, b) => b.term.length - a.term.length);
+
+  function normalize(s){
+    return s.normalize('NFC').trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  function matchCategory(input){
+    const norm = normalize(input);
+    for (const { term, catId } of TERM_LIST){
+      if (norm.includes(term) || term.includes(norm)){
+        return catId;
+      }
+    }
+    return null;
+  }
+
+  function applyDirection(input){
+    const val = input.value;
+    const isRTL = /[\u0600-\u06FF\u0750-\u077F]/.test(val);
+    input.dir = isRTL ? 'rtl' : 'ltr';
+  }
+  ['location','category'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => applyDirection(el));
+  });
+
   const form = document.getElementById('search-form');
   const locationInput = document.getElementById('location');
   const categoryInput = document.getElementById('category');
@@ -221,71 +228,22 @@
   document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => {
       categoryInput.value = chip.dataset.cat;
+      applyDirection(categoryInput);
       categoryInput.focus();
     });
   });
 
-  function clearMap(){
-    if (map){ markers.forEach(m => map.removeLayer(m)); markers = []; }
-  }
+  function clearMap(){ if (map){ markers.forEach(m => map.removeLayer(m)); markers = []; } }
 
   function ensureMap(){
     if (!map){
       map = L.map('map');
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; OpenStreetMap contributors'
+        maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
       }).addTo(map);
     }
     mapEl.style.display = 'block';
     setTimeout(() => map.invalidateSize(), 50);
-  }
-
-  function renderResults(items, category){
-    resultsEl.innerHTML = '';
-
-    if (!items.length){
-      resultsEl.innerHTML = `
-        <div class="empty-state">
-          <h3>Nothing turned up</h3>
-          <p>Try a broader term (e.g. "food" instead of "halal food") or double-check the town spelling.</p>
-        </div>`;
-      return;
-    }
-
-    ensureMap();
-    clearMap();
-    const bounds = [];
-
-    items.forEach(item => {
-      const lat = parseFloat(item.lat);
-      const lon = parseFloat(item.lon);
-      bounds.push([lat, lon]);
-
-      const marker = L.marker([lat, lon]).addTo(map);
-      marker.bindPopup(`<strong>${escapeHtml(item.display_name.split(',')[0])}</strong>`);
-      markers.push(marker);
-
-      const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
-      const osmUrl = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=18/${lat}/${lon}`;
-
-      const card = document.createElement('div');
-      card.className = 'result-card';
-      card.innerHTML = `
-        <div class="result-main">
-          <h3>${escapeHtml(item.display_name.split(',')[0])}</h3>
-          <div class="addr">${escapeHtml(item.display_name.split(',').slice(1).join(',').trim())}</div>
-          <span class="type-tag">${escapeHtml(category)}</span>
-        </div>
-        <div class="result-links">
-          <a href="${gmapsUrl}" target="_blank" rel="noopener">Open in Google Maps ↗</a>
-          <a href="${osmUrl}" target="_blank" rel="noopener">Open in OpenStreetMap ↗</a>
-        </div>
-      `;
-      resultsEl.appendChild(card);
-    });
-
-    map.fitBounds(bounds, { padding: [30, 30], maxZoom: 15 });
   }
 
   function escapeHtml(str){
@@ -294,29 +252,187 @@
     return div.innerHTML;
   }
 
-  async function search(location, category){
+  async function fetchWithTimeout(url, opts, ms){
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), ms);
+    try{
+      return await fetch(url, { ...opts, signal: controller.signal });
+    } finally {
+      clearTimeout(id);
+    }
+  }
+
+  async function geocodeLocation(location){
+    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(location)}&limit=1&addressdetails=0`;
+    const res = await fetchWithTimeout(url, { headers: { 'Accept': 'application/json' } }, 12000);
+    if (!res.ok) throw new Error('geocode failed');
+    const data = await res.json();
+    if (!data.length) return null;
+    const place = data[0];
+    let radius = 5000;
+    if (place.boundingbox){
+      const [s, n, w, e] = place.boundingbox.map(Number);
+      const latSpanM = Math.abs(n - s) * 111000;
+      const lonSpanM = Math.abs(e - w) * 111000 * Math.cos(place.lat * Math.PI / 180);
+      radius = Math.min(Math.max(Math.max(latSpanM, lonSpanM) / 2, 2000), 12000);
+    }
+    return { lat: parseFloat(place.lat), lon: parseFloat(place.lon), name: place.display_name, radius: Math.round(radius) };
+  }
+
+  async function overpassSearch(filters, lat, lon, radius){
+    const clauses = filters.map(f =>
+      `node${f}(around:${radius},${lat},${lon});way${f}(around:${radius},${lat},${lon});relation${f}(around:${radius},${lat},${lon});`
+    ).join('\n');
+    const query = `[out:json][timeout:25];(${clauses});out center 40;`;
+
+    const endpoints = [
+      'https://overpass-api.de/api/interpreter',
+      'https://overpass.kumi.systems/api/interpreter'
+    ];
+
+    let lastErr;
+    for (const endpoint of endpoints){
+      try{
+        const res = await fetchWithTimeout(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: query
+        }, 20000);
+        if (!res.ok) throw new Error('overpass failed: ' + res.status);
+        const data = await res.json();
+        return data.elements || [];
+      } catch(err){
+        lastErr = err;
+      }
+    }
+    throw lastErr;
+  }
+
+  async function nominatimTextSearch(category, location){
+    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(category + ' ' + location)}&addressdetails=1&limit=15`;
+    const res = await fetchWithTimeout(url, { headers: { 'Accept': 'application/json' } }, 12000);
+    if (!res.ok) throw new Error('search failed');
+    return await res.json();
+  }
+
+  function dedupe(items, keyFn){
+    const seen = new Set();
+    return items.filter(it => {
+      const k = keyFn(it);
+      if (seen.has(k)) return false;
+      seen.add(k);
+      return true;
+    });
+  }
+
+  function renderMapAndList(points, categoryLabel){
+    ensureMap();
+    clearMap();
+    resultsEl.innerHTML = '';
+    const bounds = [];
+
+    points.forEach(p => {
+      bounds.push([p.lat, p.lon]);
+      const marker = L.marker([p.lat, p.lon]).addTo(map);
+      marker.bindPopup(`<strong>${escapeHtml(p.name)}</strong>`);
+      markers.push(marker);
+
+      const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}`;
+      const osmUrl = `https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=18/${p.lat}/${p.lon}`;
+
+      const card = document.createElement('div');
+      card.className = 'result-card';
+      card.innerHTML = `
+        <div class="result-main">
+          <h3>${escapeHtml(p.name)}</h3>
+          <div class="addr">${escapeHtml(p.address || '')}</div>
+          <span class="type-tag">${escapeHtml(categoryLabel)}</span>
+        </div>
+        <div class="result-links">
+          <a href="${gmapsUrl}" target="_blank" rel="noopener">Open in Google Maps ↗</a>
+          <a href="${osmUrl}" target="_blank" rel="noopener">Open in OpenStreetMap ↗</a>
+        </div>`;
+      resultsEl.appendChild(card);
+    });
+
+    if (bounds.length) map.fitBounds(bounds, { padding: [30, 30], maxZoom: 16 });
+  }
+
+  function renderEmpty(category, location){
+    resultsEl.innerHTML = `
+      <div class="empty-state">
+        <h3>Nothing turned up</h3>
+        <p>No mapped results for "${escapeHtml(category)}" near "${escapeHtml(location)}" yet.</p>
+      </div>`;
+  }
+
+  function renderGoogleFallback(category, location){
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(category + ' in ' + location)}`;
+    const box = document.createElement('div');
+    box.className = 'fallback-box';
+    box.innerHTML = `Can't find what you need above? <a href="${url}" target="_blank" rel="noopener">Search "${escapeHtml(category)}" in ${escapeHtml(location)} on Google Maps →</a>`;
+    resultsEl.appendChild(box);
+  }
+
+  async function runSearch(location, category){
     statusEl.className = 'status';
-    statusEl.textContent = `Searching for "${category}" in ${location}…`;
+    statusEl.textContent = `Searching for "${category}" near ${location}…`;
     resultsEl.innerHTML = '';
     searchBtn.disabled = true;
 
-    const query = `${category} in ${location}`;
-    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(query)}&addressdetails=1&limit=15`;
-
     try{
-      const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
-      if (!res.ok) throw new Error('Network response was not OK');
-      const data = await res.json();
+      const geo = await geocodeLocation(location);
+      if (!geo){
+        statusEl.className = 'status error';
+        statusEl.textContent = `Couldn't find the location "${location}". Try a nearby town name or full postcode.`;
+        return;
+      }
 
-      statusEl.textContent = data.length
-        ? `Found ${data.length} result${data.length === 1 ? '' : 's'} for "${category}" in ${location}.`
-        : `No matches for "${category}" in ${location}.`;
+      const catId = matchCategory(category);
+      let points = [];
+      let categoryLabel = category;
 
-      renderResults(data, category);
+      if (catId){
+        categoryLabel = CATEGORY_DEFS[catId].label;
+        const elements = await overpassSearch(CATEGORY_DEFS[catId].filters, geo.lat, geo.lon, geo.radius);
+        points = elements
+          .map(el => {
+            const tags = el.tags || {};
+            const lat = el.lat ?? el.center?.lat;
+            const lon = el.lon ?? el.center?.lon;
+            if (lat == null || lon == null || !tags.name) return null;
+            const addrParts = [tags['addr:housenumber'], tags['addr:street'], tags['addr:city']].filter(Boolean);
+            return { name: tags.name, lat, lon, address: addrParts.join(' ') };
+          })
+          .filter(Boolean);
+        points = dedupe(points, p => p.name + '|' + p.lat.toFixed(4) + p.lon.toFixed(4));
+      }
+
+      if (!points.length){
+        const textResults = await nominatimTextSearch(category, location);
+        points = textResults.map(r => ({
+          name: r.display_name.split(',')[0],
+          lat: parseFloat(r.lat),
+          lon: parseFloat(r.lon),
+          address: r.display_name.split(',').slice(1).join(',').trim()
+        }));
+      }
+
+      if (!points.length){
+        statusEl.textContent = `No matches for "${category}" near ${location}.`;
+        renderEmpty(category, location);
+        renderGoogleFallback(category, location);
+        return;
+      }
+
+      statusEl.textContent = `Found ${points.length} result${points.length === 1 ? '' : 's'} for "${categoryLabel}" near ${geo.name.split(',')[0]}.`;
+      renderMapAndList(points, categoryLabel);
+      renderGoogleFallback(category, location);
+
     } catch(err){
       statusEl.className = 'status error';
       statusEl.textContent = 'Something went wrong reaching the search service. Please try again in a moment.';
-      resultsEl.innerHTML = '';
+      renderGoogleFallback(category, location);
     } finally {
       searchBtn.disabled = false;
     }
@@ -327,7 +443,7 @@
     const location = locationInput.value.trim();
     const category = categoryInput.value.trim();
     if (!location || !category) return;
-    search(location, category);
+    runSearch(location, category);
   });
 })();
 </script>
